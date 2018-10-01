@@ -1,0 +1,46 @@
+[{
+    "id":1,
+    "name": "DELD quize",
+    "questions":[
+        {
+            "Id": 10,
+            "Name":"OR gate Output is High when",
+            "QuestionTypeId":1,
+            "Options" :[
+                {
+                    "Id": 11 ,
+                    "QuestionId":10,
+                    "Name":"Both input HIGH",
+                    "IsAnswer":true
+                
+                },
+                {
+                    "Id": 12 ,
+                    "QuestionId":10,
+                    "Name":"Both input LOW",
+                    "IsAnswer":false
+                },
+                {
+                    "Id": 13 ,
+                    "QuestionId":10,
+                    "Name":"From abov 1 and 2",
+                    "IsAnswer":false
+                },
+                {
+                    "Id": 14 ,
+                    "QuestionId":10,
+                    "Name":"None Of the above",
+                    "IsAnswer":false
+                }
+            ],
+            "QuestionType":{
+                "Id": 1,
+                    "Name": "Multiple Choice",
+                    "IsActive": true
+            }
+            
+            
+        }
+    ]
+}
+]
