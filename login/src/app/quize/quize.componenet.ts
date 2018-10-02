@@ -1,50 +1,65 @@
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
+import { Http } from '@angular/http';
+import 'rxjs/add/operator/map';
+import { User } from './user.model';
+import { Quiz } from './quiz.model';
 
 @Component({
-    selector: 'home',
-    templateUrl: './quize.component.html'
-    //styleUrls: ['./home.component.css'],
-    //styles: ['.tbl-row-border { border: 1px solid red;}']
+  selector: 'app-quizes',
+  templateUrl: './quizes.component.html',
+ // styleUrls: ['./quizes.component.css']
 })
+export class QuizeComponent implements OnInit {
+  maxScore: number = 100;
+  minScore: number = 40;
+  user: User;
+  quizes: Quiz[];
+  currentQuiz: Quiz;
+  score: number = 10;
 
-export class QuizeComponent {
-    userlist: Users[];
+  constructor(private http: Http) {
+    this.setDefault();
+  }
 
-    constructor() {
-        this.userlist = [
-            {
-             Id: "10",
-             name:"Angular",
-             description:"what is angular",
-             question:'Hi'
-            }
-            
-           ];
-    }
+  ngOnInit() {
+    this.getQuisez();
+  }
 
-    values = '';
-    onKeyUp(event: any) {
-        this.values = event.target.value;
-    };
+  private getQuisez() {
+    this.http.get('assets/data/mock.data.json').subscribe(
+      res => {
+        this.quizes = res.json();
+        this.getQuestion();
+      },
+      error => console.log(error)
+    );
+  }
 
-    addUser(user) {
-        alert(JSON.stringify(user));
-    };
+  getQuestion(direction?: string): void {
+    if (direction == 'next') this.user.count++;
+    if (direction == 'prev') this.user.count--;
 
-    updateUser(user) {
-        alert(JSON.stringify(user));
-    };
+    this.currentQuiz = this.quizes[this.user.count];
+  }
 
-    deleteUser(user) {
-        alert(JSON.stringify(user));
-    };
-}
+  getGrade() {
+    this.checkQuiz();
+    this.user.done = 1;
+  }
 
-export class Users {
-    Id: String;
-    name: String;
-    description:String;
-  question:string;
-  
+  checkQuiz() {
+    this.quizes.map(quiz => quiz.selected == quiz.answer ? this.user.totalScore += this.score : this.user.totalScore);
+  }
+
+  repeatQuiz() {
+    this.setDefault();
+    this.getQuisez();
+  }
+
+  private setDefault() {
+    this.quizes = [];
+    this.user = new User();
+    this.currentQuiz = new Quiz();
+  }
+
 }
